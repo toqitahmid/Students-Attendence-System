@@ -14,10 +14,11 @@ mongoose.connect(process.env.MONGO_URI)
 
 const departmentRoutes = require('./routes/departmentRoutes');
 const studentRoutes = require('./routes/studentRoutes');
-
+const attendanceRoutes = require("./routes/attendanceRoutes");
 
 app.use('/api/departments', departmentRoutes);
-app.use('/api/students', studentRoutes)
+app.use('/api/students', studentRoutes);
+app.use("/api/attendances", attendanceRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

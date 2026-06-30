@@ -4,7 +4,7 @@ const Student = require("../models/Student");
 console.log("Student schema fields:", Object.keys(Student.schema.paths));
 //CREATE
 router.post("/", async (req, res) => {
-  console.log("Received body:", req.body);
+//   console.log("Received body:", req.body);
 
   try {
     const student = new Student(req.body);
@@ -18,7 +18,20 @@ router.post("/", async (req, res) => {
 // READ ALL
 router.get("/", async (req, res) => {
   try {
-    const students = await Student.find().populate("departmentId");
+    const { departmentId, semester } = req.query;
+
+    let filter = {};
+
+    if (departmentId) {
+      filter.departmentId = departmentId;
+    }
+
+    if (semester) {
+      filter.semester = Number(semester);
+    }
+
+    const students = await Student.find(filter).populate("departmentId");
+
     res.json(students);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -28,7 +41,7 @@ router.get("/", async (req, res) => {
 //READ single
 router.get("/:id", async (req, res) => {
   try {
-    const student = await student
+    const student = await Student
       .findById(req.params.id)
       .populate("departmentId");
 
@@ -46,6 +59,7 @@ router.patch("/:id", async (req, res) => {
   try {
     const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
+      runValidators: true,
     });
     res.json(student);
   } catch (err) {
