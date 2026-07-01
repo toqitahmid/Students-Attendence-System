@@ -18,7 +18,7 @@ const attendanceRoutes = require("./routes/attendanceRoutes");
 
 app.use('/api/departments', departmentRoutes);
 app.use('/api/students', studentRoutes);
-app.use("/api/attendances", attendanceRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
